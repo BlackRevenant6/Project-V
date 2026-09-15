@@ -370,10 +370,31 @@ position = Vector2(554, 263)
 position = Vector2(2021, 176)
 
 [node name="6" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=902940024]
-position = Vector2(251, 238)
+position = Vector2(175, 250)
 
 [node name="7" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=1665995731]
 position = Vector2(190, 540)
+
+[node name="8" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=912533241]
+position = Vector2(226, 233)
+
+[node name="9" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=712528169]
+position = Vector2(248, 266)
+
+[node name="10" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=1401998997]
+position = Vector2(270, 252)
+
+[node name="11" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=199365171]
+position = Vector2(262, 223)
+
+[node name="12" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=1518913778]
+position = Vector2(242, 216)
+
+[node name="13" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=1322827450]
+position = Vector2(208, 216)
+
+[node name="14" type="Marker2D" parent="Spawnpoints/Powerup_spawnpoint" unique_id=731814284]
+position = Vector2(182, 221)
 
 [node name="Label" type="Label" parent="." unique_id=1179319195]
 offset_left = 166.0

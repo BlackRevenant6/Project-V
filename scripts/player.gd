@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 class_name player_
 
-var closest_target = world.center
-var target_list = []
+var melee_target = world.center
+var melee_target_list = []
 var spawn_slash
 
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +27,10 @@ func _process(delta: float) -> void:
 	#ANIM SPEED CHANGES
 	$Anim.speed_scale = Player.anim_speed
 	
+	#DEATH
+	if Player.health < 1:
+		queue_free()
+	
 	#TRACK POWER UPS
 	match Player.power_up_count:
 		1:
@@ -48,7 +52,7 @@ func _process(delta: float) -> void:
 
 		6:
 			Player.unlock_bow = true
-			#$HUD/Bow.visible = true
+			$HUD/Bow.visible = true
 	$HUD/objective/amount.text = str(Player.power_up_count)
 	
 	#UPDATE HUD
@@ -148,45 +152,46 @@ func _process(delta: float) -> void:
 		
 		if Player.unlock_shadow_form:
 			Player.effect_list.append("invincible")
-		
-	#DEATH
-	if Player.health < 1:
-		queue_free()
 	
 	
 	#ATTACK
 	#slash
 	
-		#find closest target
-	target_list = $slash_range.get_overlapping_bodies()
-	target_list.erase(self)
-	for i in target_list:
+	#find closest target
+	melee_target_list = $slash_range.get_overlapping_bodies()
+	melee_target_list.erase(self)
+	for i in melee_target_list:
 		if (i.global_position.distance_to(Player.position)
-		< (closest_target.global_position.distance_to(Player.position))
+		< (melee_target.global_position.distance_to(Player.position))
 		and i != self):
-			closest_target = i
+			melee_target = i
 			
-	if target_list == []:
-		closest_target == world.center
 		
 		#trigger
-	if (Input.is_action_pressed("attack") 
-		and target_list 
-		and closest_target != world.center
+	if (Input.is_action_pressed("slash") 
+		and melee_target_list 
+		and melee_target != null
 		and Player.unlock_attack
 		and $slash_cooldown.is_stopped()):
 		
 		
 		spawn_slash = preload("res://slash.tscn")
 		spawn_slash = spawn_slash.instantiate()
-		spawn_slash.rotation = get_angle_to(closest_target.global_position) + 90
+		spawn_slash.rotation = get_angle_to(melee_target.global_position) + 90
 		self.add_child(spawn_slash)
 		
-		Ennemy.take_damage.append(closest_target)
-		closest_target = world.center
+		Ennemy.take_damage.append(melee_target)
+		melee_target = world.center
 		$slash_cooldown.start(1)
 		$HUD/Slash_timer.start(1)
 			
+	# SHOOT BOW
+	if (Input.is_action_pressed("shoot_bow")
+		and ranged_target_list 
+		and range_target != null
+		and Player.unlock_bow
+		and $bow_cooldown.is_stopped()):
+			pass
 	
 	#BLOCK / PARRY
 	if (Input.is_action_pressed("block")
@@ -197,6 +202,8 @@ func _process(delta: float) -> void:
 		$HUD/Block_timer.start(Player.block_time + Player.block_cooldown)
 		$blocking.start(Player.block_time)
 		Player.effect_list.append("block")
+	
+
 	
 	#BLOCK / PARRY (deflects(animations reported to later :-( ))
 	#Ideas

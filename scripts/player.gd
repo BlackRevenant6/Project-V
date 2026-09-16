@@ -155,16 +155,9 @@ func _process(delta: float) -> void:
 	
 	
 	#ATTACK
-	#slash
+		#slash
 	
-	#find closest target
-	melee_target_list = $slash_range.get_overlapping_bodies()
-	melee_target_list.erase(self)
-	for i in melee_target_list:
-		if (i.global_position.distance_to(Player.position)
-		< (melee_target.global_position.distance_to(Player.position))
-		and i != self):
-			melee_target = i
+
 			
 		
 		#trigger
@@ -173,6 +166,16 @@ func _process(delta: float) -> void:
 		and melee_target != null
 		and Player.unlock_attack
 		and $slash_cooldown.is_stopped()):
+			
+			
+		#find closest target
+		melee_target_list = $slash_range.get_overlapping_bodies()
+		melee_target_list.erase(self)
+		for i in melee_target_list:
+			if (i.global_position.distance_to(Player.position)
+			< (melee_target.global_position.distance_to(Player.position))
+			and i != self):
+				melee_target = i
 		
 		
 		spawn_slash = preload("res://slash.tscn")

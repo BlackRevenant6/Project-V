@@ -4,7 +4,10 @@ class_name player_
 
 var melee_target = world.center
 var melee_target_list = []
+var ranged_target = world.center
+var ranged_target_list = []
 var spawn_slash
+var spawn_arrow
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -156,28 +159,22 @@ func _process(delta: float) -> void:
 	
 	#ATTACK
 		#slash
-	
-
-			
-		
-		#trigger
-	if (Input.is_action_pressed("slash") 
-		and melee_target_list 
-		and melee_target != null
-		and Player.unlock_attack
-		and $slash_cooldown.is_stopped()):
-			
-			
-		#find closest target
-		melee_target_list = $slash_range.get_overlapping_bodies()
+	if (Input.is_action_pressed("slash")
+	and Player.unlock_attack):
+		#find closest target in melee range
+		melee_target_list = $melee_attack_range.get_overlapping_bodies()
 		melee_target_list.erase(self)
 		for i in melee_target_list:
 			if (i.global_position.distance_to(Player.position)
 			< (melee_target.global_position.distance_to(Player.position))
 			and i != self):
 				melee_target = i
-		
-		
+	if (Input.is_action_pressed("slash") 
+		and melee_target_list 
+		and melee_target != null
+		and Player.unlock_attack
+		and $slash_cooldown.is_stopped()):
+			
 		spawn_slash = preload("res://slash.tscn")
 		spawn_slash = spawn_slash.instantiate()
 		spawn_slash.rotation = get_angle_to(melee_target.global_position) + 90
@@ -190,12 +187,34 @@ func _process(delta: float) -> void:
 			
 	# SHOOT BOW
 	if (Input.is_action_pressed("shoot_bow")
-		and ranged_target_list 
-		and range_target != null
+	and Player.unlock_bow):
+		#find closest target in ranged range
+		ranged_target_list = $ranged_attack_range.get_overlapping_bodies()
+		ranged_target_list.erase(self)
+		for i in ranged_target_list:
+			if (i.global_position.distance_to(Player.position)
+			< (melee_target.global_position.distance_to(Player.position))
+			and i != self):
+				melee_target = i
+		
+				
+	if (Input.is_action_pressed("shoot_bow")
+		and not melee_target
+		and ranged_target_list
+		and ranged_target != null
 		and Player.unlock_bow
 		and $bow_cooldown.is_stopped()):
-			pass
-	
+			print("ok")
+			spawn_arrow = preload("res://arrow.tscn")
+			spawn_arrow = spawn_arrow.instantiate()
+			spawn_arrow.rotation = get_angle_to(ranged_target.global_position) + 90
+			self.add_child(spawn_arrow)
+			
+			Ennemy.take_damage.append(ranged_target)
+			ranged_target = world.center
+			$bow_cooldown.start(1)
+			$HUD/Bow_timer.start(1)
+		
 	#BLOCK / PARRY
 	if (Input.is_action_pressed("block")
 		and Player.unlock_shield

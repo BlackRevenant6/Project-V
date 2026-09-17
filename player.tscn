@@ -480,14 +480,25 @@ collision_mask = 16
 scale = Vector2(0.68169785, 1.2800195)
 polygon = PackedVector2Array(-4.4007874, 9.374863, -4.4007874, 6.2499084, -5.8677063, 5.4686737, -8.801544, 5.4686737, -8.801544, 1.5624847, -7.3346252, 1.5624847, -7.3346252, -0.78123474, -8.801544, -0.78123474, -8.801544, -8.593613, -7.3346252, -9.374847, 7.3346252, -9.374847, 8.801544, -8.593613, 8.801544, -0.78123474, 7.3346252, -0.78123474, 7.3346252, 1.5624847, 8.801544, 1.5624847, 8.801544, 5.4686737, 5.8677063, 5.4686737, 4.4007874, 6.2499084, 4.4007874, 9.374863)
 
-[node name="slash_range" type="Area2D" parent="player" unique_id=487071243]
+[node name="melee_attack_range" type="Area2D" parent="player" unique_id=487071243]
 collision_layer = 0
 collision_mask = 24
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player/slash_range" unique_id=216748343]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/melee_attack_range" unique_id=216748343]
+shape = SubResource("CircleShape2D_ny14h")
+
+[node name="ranged_attack_range" type="Area2D" parent="player" unique_id=1219195616]
+scale = Vector2(4.720001, 2.6998448)
+collision_layer = 0
+collision_mask = 24
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/ranged_attack_range" unique_id=1443627556]
 shape = SubResource("CircleShape2D_ny14h")
 
 [node name="slash_cooldown" type="Timer" parent="player" unique_id=1244664145]
+one_shot = true
+
+[node name="bow_cooldown" type="Timer" parent="player" unique_id=1716735380]
 one_shot = true
 
 [node name="shield_anim" type="AnimatedSprite2D" parent="player" unique_id=787503027]

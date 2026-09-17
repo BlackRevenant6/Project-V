@@ -82,7 +82,7 @@ func use_slimespike() -> void:
 	
 func _on_aggro_radius_body_entered(body: Node2D) -> void:
 	if body is player_:
-		hostile = true
+		hostile = false
 
 func _on_combo_delay_timeout() -> void:
 	combo = false

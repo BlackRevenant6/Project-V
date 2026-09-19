@@ -349,7 +349,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny14h"]
-radius = 31.016125
+radius = 30.510715
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3iwfv"]
 animations = [{
